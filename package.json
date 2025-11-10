@@ -1,0 +1,22 @@
+{
+  "name": "depot-downloader",
+  "version": "1.0.0",
+  "description": "JavaScript Steam Depot Downloader",
+  "main": "index.mjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "mysfad",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "@doctormckay/stdlib": "^2.10.0",
+    "adm-zip": "^0.5.16",
+    "bytebuffer": "^5.0.1",
+    "lzma": "^2.3.2",
+    "p-limit": "^7.2.0",
+    "protobufjs": "^7.5.4",
+    "zstddec": "^0.1.0"
+  }
+}
