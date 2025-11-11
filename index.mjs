@@ -1,13 +1,11 @@
 import { EventEmitter } from 'events'
 import path from 'path'
-import helper from './helper.mjs'
 import fs from 'fs/promises'
 import pLimit from 'p-limit'
 import Crypto from 'crypto'
+import helper from './helper.mjs'
 
-const steam = {}
-
-steam.Downloader = class extends EventEmitter {
+class Downloader extends EventEmitter {
     constructor({outputDirectory, maxServers} = {}) {
         super()
         this.outputDirectory = outputDirectory || './output'
@@ -30,19 +28,19 @@ steam.Downloader = class extends EventEmitter {
         try {
             this.#manifestFile = manifestFile
             this.#keyBuffer = Buffer.from(decryptionKey, 'hex')
-            this.emit('log', 'Parsing manifest...')
+            this.emit('progress', 'Parsing manifest...')
             await this.#parseManifest()
-            this.emit('log', 'Sorting files...')
+            this.emit('progress', 'Sorting files...')
             await this.#sortFiles()
-            this.emit('log', 'Filtering files...')
+            this.emit('progress', 'Filtering files...')
             await this.#filterFiles()
             if (this.#filteredFiles.length === 0) return this.emit('finish', 'No files to download...')
-            this.emit('log', 'Making directory...')
+            this.emit('progress', 'Making directory...')
             await this.#makeDirectory()
-            this.emit('log', 'Getting servers...')
+            this.emit('progress', 'Getting servers...')
             await this.#getServers()
             this.#limitedDownload = pLimit(this.maxServers)
-            this.emit('log', 'Downloading depot...')
+            this.emit('progress', 'Downloading depot...')
             const start = performance.now()
             await this.#downloadAllFiles()
             const end = performance.now()
@@ -167,8 +165,8 @@ steam.Downloader = class extends EventEmitter {
         if (index === 0) this.#downloadedFiles++
         const progressDepot = ((this.#downloadedFiles / this.#filteredFiles.length) * 100).toFixed(2) + '%'
         const progressFile = (((index + 1) / file.chunks.length) * 100).toFixed(2) + '%'
-        this.emit('log', `${progressDepot} | ${progressFile} - ${file.filepath}`)
+        this.emit('progress', `${progressDepot} | ${progressFile} - ${file.filepath}`)
     }
 }
 
-export default steam
+export { Downloader }

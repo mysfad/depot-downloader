@@ -17,18 +17,18 @@ npm install depot-downloader
 ## Usage
 
 ```js
-import steam from "depot-downloader";
+import { Downloader } from 'depot-downloader'
 
-const Downloader = new steam.Downloader();
+const downloader = new Downloader()
 
-Downloader.on("log", console.log);
-Downloader.on("finish", console.log);
-Downloader.on("error", console.error);
+downloader.on('progress', console.log)
+downloader.on('finish', console.log)
+downloader.on('error', console.error)
 
-await Downloader.downloadDepot({
-    manifestFile: "C:\\Path\\To\\File.manifest",
-    decryptionKey: "HEX_DECRYPTION_KEY"
-});
+await downloader.downloadDepot({
+    manifestFile: './Path/To/File.manifest',
+    decryptionKey: 'DECRYPTION_KEY',
+})
 ```
 
 ---
@@ -43,8 +43,8 @@ await Downloader.downloadDepot({
 Optional constructor settings:
 
 ```js
-new steam.Downloader({
-    outputDirectory: "./output",
+new Downloader({
+    outputDirectory: './output',
     maxServers: 2
 });
 ```
@@ -53,17 +53,17 @@ new steam.Downloader({
 
 ## Events
 
-| Event    | When              |
-| -------- | ----------------- |
-| `log`    | Download progress |
-| `finish` | Download complete |
-| `error`  | Error occurred    |
+| Event      | When              |
+| ---------- | ----------------- |
+| `progress` | Download Progress |
+| `finish`   | Download Complete |
+| `error`    | Error Occurred    |
 
 ---
 
 ## Credits
 
-This project includes code from:
+This Project includes Code from:
 
 - DoctorMcKay/node-steam-user (MIT License)  
   https://github.com/DoctorMcKay/node-steam-user
